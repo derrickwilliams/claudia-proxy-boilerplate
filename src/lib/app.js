@@ -34,7 +34,6 @@ app.post('/saml/auth', parseUrlEncoded(), (req, res) => {
   const assertOptions = { request_body: req.body };
 
   service.post_assert(identity, assertOptions, function(err, samlResponse) {
-    debugger
     if (err !== null) return res.status(500).send({ errors: [err.message] });
 
     // Save name_id and session_index for logout

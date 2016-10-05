@@ -7,7 +7,7 @@ const app = express();
 
 const serviceOptions = {
   entity_id: 'http://www.okta.com/exk8dgmv1jnTXSaah0h7',
-  assert_endpoint: 'https://1cd3e6ff.ngrok.io/saml/auth',
+  assert_endpoint: 'https://478915bd.ngrok.io/saml/auth',
   allow_unencrypted_assertion: true
 };
 
@@ -15,8 +15,10 @@ const service = new saml2.ServiceProvider(serviceOptions);
 
 const identityOptions = {
   sso_login_url: 'https://careerbuilder.oktapreview.com/app/ddubs_ddubstest_1/exk8dgmv1jnTXSaah0h7/sso/saml',
-  sso_logout_url: 'https://careerbuilder.oktapreview.com/app/ddubs_ddubstest_1/exk8dgmv1jnTXSaah0h7/sso/saml'
+  sso_logout_url: 'https://careerbuilder.oktapreview.com/app/ddubs_ddubstest_1/exk8dgmv1jnTXSaah0h7/sso/saml',
+  certificates: [fs.readFileSync('okta.cert').toString()]
 };
+
 const identity = new saml2.IdentityProvider(identityOptions);
 
 app.get('/', (req, res) => res.json({ data: 'SAML Playground' }));
@@ -32,7 +34,8 @@ app.post('/saml/auth', parseUrlEncoded(), (req, res) => {
   const assertOptions = { request_body: req.body };
 
   service.post_assert(identity, assertOptions, function(err, samlResponse) {
-    if (err != null) return res.send(500);
+    debugger
+    if (err !== null) return res.status(500).send({ errors: [err.message] });
 
     // Save name_id and session_index for logout
     // Note:  In practice these should be saved in the user session, not globally.
@@ -41,5 +44,10 @@ app.post('/saml/auth', parseUrlEncoded(), (req, res) => {
     res.json({ data: { nameId, session } });
   });
 });
+
+process.on('uncaughtException', (err) => {
+  console.error(err);
+  process.exit(1);
+})
 
 export default app;

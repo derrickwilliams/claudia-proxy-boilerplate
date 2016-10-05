@@ -1,0 +1,30 @@
+{
+  "name": "cbax-machop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build.lib": "./node_modules/.bin/babel -D -s false -d ./lib ./src/lib",
+    "build.lib.w": "npm run build.lib -- -w",
+    "download.env": "aws s3 cp s3://cb1-artifacts/ApplyExperience/lambda/machop.env .env",
+    "upload.env": "aws s3 cp .env s3://cb1-artifacts/ApplyExperience/lambda/machop.env",
+    "create.proxy": "claudia create --region us-east-1 --use-local-dependencies --keep --deploy-proxy-api --handler proxy.handler",
+    "update.proxy": "claudia update --region us-east-1 --use-local-dependencies --keep --deploy-proxy-api --handler proxy.handler"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.6.6",
+    "babel-cli": "^6.16.0",
+    "babel-preset-latest": "^6.16.0",
+    "bluebird": "^3.4.6",
+    "claudia": "^2.0.2",
+    "claudia-api-builder": "^2.0.0",
+    "lodash": "^4.16.2"
+  },
+  "babel": {
+    "presets": [
+      "latest"
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "name": "saml-testing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "./node_modules/.bin/esw ./src",
+    "lint.w": "./node_modules/.bin/esw --watch ./src",
+    "lint.d": "npm run checkit -- --debug",
+    "build.lib": "./node_modules/.bin/babel -D -s false -d ./lib ./src/lib",
+    "build.lib.w": "npm run build.lib -- -w",
+    "create.proxy": "claudia create --name cbax-saml-playground --cache-api-config cbaxSamlPlaygroundConfig --region us-east-1 --use-local-dependencies --keep --deploy-proxy-api --handler proxy.handler",
+    "update.proxy": "claudia update --name cbax-saml-playground --cache-api-config cbaxSamlPlaygroundConfig --region us-east-1 --use-local-dependencies --keep --deploy-proxy-api --handler proxy.handler"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.16.0",
+    "babel-preset-latest": "^6.16.0",
+    "bluebird": "^3.4.6",
+    "body-parser": "^1.15.2",
+    "claudia": "^2.1.0",
+    "express": "^4.14.0",
+    "lodash": "^4.16.3",
+    "saml2-js": "^1.10.0"
+  },
+  "babel": {
+    "presets": [
+      "latest"
+    ]
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.0.0",
+    "eslint": "^3.7.1",
+    "eslint-config-standard": "^6.2.0",
+    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-standard": "^2.0.1",
+    "eslint-watch": "^2.1.14",
+    "jasmine": "^2.5.2",
+    "watch": "^0.19.2"
+  }
+}

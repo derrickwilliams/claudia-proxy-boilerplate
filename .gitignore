@@ -4,3 +4,4 @@ node_modules/
 lib/*
 saml-assertion.xml
 .vscode/
+okta.cert
